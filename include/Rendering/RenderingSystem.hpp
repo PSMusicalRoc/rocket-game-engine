@@ -6,6 +6,7 @@
 
 #include "Rendering/UI/TextRenderer.hpp"
 #include "Rendering/UI/Fonts.hpp"
+#include "Rendering/UI/AnimatedTextRenderer.hpp"
 
 #include "Rendering/SquareComponent.hpp"
 #include "Rendering/SpriteRenderer.hpp"

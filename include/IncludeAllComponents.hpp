@@ -8,4 +8,5 @@
 #include "Rendering/SpriteRenderer.hpp"
 
 #include "Rendering/UI/TextRenderer.hpp"
+#include "Rendering/UI/AnimatedTextRenderer.hpp"
 #include "Rendering/UI/Fonts.hpp"

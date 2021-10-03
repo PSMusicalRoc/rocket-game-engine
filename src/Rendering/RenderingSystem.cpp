@@ -32,6 +32,16 @@ void render_ui(SDL_Renderer* renderer)
         SDL_FreeSurface(txt->text_rendered);
         SDL_DestroyTexture(texture);
     }
+
+    entities = search_for_entities_with_component<AnimatedTextRenderer>();
+
+    for (SharedPtrEntity ent : entities)
+    {
+        int id = find_component_in_entity<AnimatedTextRenderer>(ent);
+        AnimatedTextRenderer* txt = std::any_cast<AnimatedTextRenderer>(&ent->component_list.at(id));
+
+        AnimatedTextRenderer::render(renderer, txt);
+    }
 }
 
 void render(SDL_Renderer* renderer)

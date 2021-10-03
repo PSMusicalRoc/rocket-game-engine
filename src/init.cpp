@@ -31,6 +31,14 @@ void init()
         }
     }
 
+    add_component_to_entity<AnimatedTextRenderer>(AnimatedTextRenderer("Hi there, this is a test of the animated scrolling text!\n"
+                                                                        "Hopefully, it's also multiline as well!\n"
+                                                                        "Thank you Asher for making the poggers art! :PogU:", Fonts::SMALL_ARIAL, 3), kiwi);
+    
+    AnimatedTextRenderer* kiwi_text = std::any_cast<AnimatedTextRenderer>(&kiwi->component_list.at(1));
+    kiwi_text->size_and_pos.x = 305;
+    kiwi_text->size_and_pos.y = 700;
+
 
     /*
     Whale Mom Sprite
