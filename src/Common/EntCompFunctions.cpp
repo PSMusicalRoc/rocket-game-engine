@@ -1,3 +1,9 @@
+/**
+ * @file EntCompFunctions.cpp
+ * 
+ * @sa EntCompFunctions.hpp
+ */
+
 #include "Common/EntCompFunctions.hpp"
 
 /*
@@ -41,67 +47,6 @@ std::string generate_unique_eid(int len)
     }
     return return_val;
 }
-
-/*
-Component Operators
-*/
-/*bool check_if_entity_has_component(int component_enum, SharedPtrEntity entity)
-{
-    std::vector<Component*> components = entity->component_list;
-    for (int i = 0; i < components.size(); i++)
-    {
-        if (component_enum == components.at(i)->ident)
-        {
-            return true;
-        }
-    }
-    return false;
-}*/
-
-/*
-add_component_to_entity is in EntCompFunctions.hpp
-*/
-
-/*bool remove_component_from_entity(int component_enum, SharedPtrEntity entity)
-{
-    std::vector<Component*> components = entity->component_list;
-    for (int i = 0; i < components.size(); i++)
-    {
-        if (component_enum == components.at(i)->ident)
-        {
-            components.erase(components.begin() + i);
-            return true;
-        }
-    }
-    return false;
-}*/
-
-/*int find_component_in_entity(int component_enum, SharedPtrEntity entity)
-{
-    std::vector<Component*> components = entity->component_list;
-    for (int i = 0; i < components.size(); i++)
-    {
-        if (component_enum == components.at(i)->ident)
-        {
-            return i;
-        }
-    }
-    return components.max_size();
-} */
-
-/*EntPtrVector search_for_entities_with_component(int component_enum)
-{
-    EntPtrVector return_vec;
-    for (int i = 0; i < GLOBAL_ENTITY_LIST.size(); i++)
-    {
-        if (find_component_in_entity(component_enum, GLOBAL_ENTITY_LIST[i])
-            != GLOBAL_ENTITY_LIST[i]->component_list.max_size())
-        {
-            return_vec.emplace_back(GLOBAL_ENTITY_LIST[i]);
-        }
-    }
-    return return_vec;
-}*/
 
 /*
 Entity Operators
@@ -157,5 +102,5 @@ int find_entity_position(SharedPtrEntity ent)
             return i;
         }
     }
-    return GLOBAL_ENTITY_LIST.max_size();
+    return -1;
 }
