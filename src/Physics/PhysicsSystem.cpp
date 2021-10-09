@@ -2,10 +2,6 @@
 #include "Logging/Logger.hpp"
 #include <iostream>
 
-void update_gravity(GravityComponent* component, double deltatime)
-{
-    component->current_velocity = component->current_velocity + component->gravity_constant * deltatime;
-}
 
 void physics_update(double deltatime)
 {
@@ -16,8 +12,7 @@ void physics_update(double deltatime)
         int component = find_component_in_entity<GravityComponent>(ent);
         GravityComponent* grav_component = std::any_cast<GravityComponent>(&ent->component_list.at(component));
         
-        //ent->component_list[component].get();
-        update_gravity(grav_component, deltatime);
+        GravityComponent::update_gravity(grav_component, deltatime);
 
         ent->y_pos += grav_component->current_velocity * deltatime;
         if (ent->y_pos > 1000)
