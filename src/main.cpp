@@ -20,8 +20,6 @@
 typedef std::vector<std::shared_ptr<Entity>> EntPtrVector;
 typedef std::shared_ptr<Entity> SharedPtrEntity;
 
-int x = Globals::screen_width;
-int y = Globals::screen_height;
 
 Uint32 last_frame_time = 0;
 Uint32 this_frame_time = SDL_GetTicks();
@@ -51,8 +49,9 @@ int main(int argc, char *argv[])
     init_fonts();
 
 
-    SDL_Window* window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED, x, y, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow("Test",
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        Globals::screen_width, Globals::screen_height, SDL_WINDOW_OPENGL);
     if (window == NULL)
     {
         std::cout << "Error creating window..." << std::endl;
