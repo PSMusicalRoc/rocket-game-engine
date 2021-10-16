@@ -26,10 +26,13 @@
  * and will be optimized in the future.
  * 
  * @brief This function updates all the physics in the game
- * every frame.
+ * every frame. 
  * 
  * @note This function is somewhat nonoptimal and should be
  * revisited at a later date.
+ * 
+ * @todo Update this function to optimize the searching
+ * and iterating.
  * 
  * @param deltatime The time difference between this and
  * the last frame in seconds.
