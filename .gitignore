@@ -3,3 +3,6 @@ build/
 
 # Screen Workspace
 big-screen.code-workspace
+
+#Doxygen Documentation (For Now...)
+docs/
