@@ -1,3 +1,18 @@
+/**
+ * @file main.cpp
+ * 
+ * This is the main file of the entire engine.
+ * Here is where inputs are handled, rendering
+ * takes place, and where SDL does all its magic.
+ * 
+ * @todo Implement function pointers into components,
+ * especially the upcoming input component.
+ * @todo Make multiple files (or even a small new
+ * language) that when called, initializes a
+ * certain entity with certain properties (instead
+ * of putting them all into init.hpp)
+ */
+
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 
