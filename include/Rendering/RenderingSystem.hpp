@@ -15,6 +15,8 @@
 
 void update_squares(SquareComponent* sqr, SharedPtrEntity entity);
 
+void update_ui(double deltatime);
+
 void render(SDL_Renderer* renderer);
 
 void render_ui(SDL_Renderer* renderer);

@@ -1,5 +1,12 @@
 #include "init.hpp"
 
+void kiwi_end_dialogue()
+{
+    SharedPtrEntity kiwi = find_entities_by_label("kiwi")[0];
+    int index = find_entity_position(kiwi);
+    GLOBAL_ENTITY_LIST.erase(GLOBAL_ENTITY_LIST.begin() + index);
+}
+
 void init()
 {
     auto fps_ent = create_entity(0, 0);
@@ -12,6 +19,7 @@ void init()
     txt->size_and_pos.w = 1000;
 
     auto kiwi = create_entity(0, 0);
+    kiwi->labels.emplace_back("kiwi");
     //auto shared = std::make_shared<Animation>(Animation(Spritesheet("res/img/kiwi/Kiwi_Megaman_Battle_Network.png")));
     add_component_to_entity<SpriteRenderer>(SpriteRenderer("idle", Animation(Spritesheet("res/img/kiwi/Kiwi_Megaman_Battle_Network.png"))), kiwi);
     SpriteRenderer* kiwi_sprite = std::any_cast<SpriteRenderer>(&kiwi->component_list.at(0));
@@ -31,13 +39,22 @@ void init()
         }
     }
 
-    add_component_to_entity<AnimatedTextRenderer>(AnimatedTextRenderer("Hi there, this is a test of the animated scrolling text!\n"
-                                                                        "Hopefully, it's also multiline as well!\n"
-                                                                        "Thank you Asher for making the poggers art! :PogU:", Fonts::SMALL_ARIAL, 3), kiwi);
+    add_component_to_entity<AnimatedTextRenderer>(AnimatedTextRenderer("", Fonts::SMALL_ARIAL, 100), kiwi);
     
     AnimatedTextRenderer* kiwi_text = std::any_cast<AnimatedTextRenderer>(&kiwi->component_list.at(1));
+
+    kiwi_text->messages.emplace_back("Hi there, this is a test of the animated scrolling text!\n"
+                                    "Hopefully, it's also multiline as well!\n"
+                                    "Thank you Asher for making the poggers art! :PogU:");
+    
+    kiwi_text->messages.emplace_back("Test2");
+
+    kiwi_text->messages.emplace_back("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB");
+
+
     kiwi_text->size_and_pos.x = 305;
     kiwi_text->size_and_pos.y = 700;
+    kiwi_text->end_of_dialogue_callback = kiwi_end_dialogue;
 
 
     /*

@@ -15,6 +15,19 @@ void update_text_renderer(TextRenderer* txt, SharedPtrEntity entity)
     txt->text_rendered = TTF_RenderText_Solid(txt->font, txt->text.c_str(), {255, 255, 255});
 }
 
+void update_ui(double deltatime)
+{
+    EntPtrVector entities = search_for_entities_with_component<AnimatedTextRenderer>();
+
+    for (SharedPtrEntity ent : entities)
+    {
+        int id = find_component_in_entity<AnimatedTextRenderer>(ent);
+        AnimatedTextRenderer* txt = std::any_cast<AnimatedTextRenderer>(&ent->component_list.at(id));
+
+        AnimatedTextRenderer::update(txt, deltatime);
+    }
+}
+
 void render_ui(SDL_Renderer* renderer)
 {
     EntPtrVector entities = search_for_entities_with_component<TextRenderer>();

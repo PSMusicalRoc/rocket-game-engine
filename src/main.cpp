@@ -88,6 +88,9 @@ int main(int argc, char *argv[])
     SharedPtrEntity fps_entity = find_entities_by_label("fps")[0];
     auto txt = std::any_cast<TextRenderer>(&fps_entity->component_list[0]);
 
+    SharedPtrEntity kiwi = find_entities_by_label("kiwi")[0];
+    AnimatedTextRenderer* kiwi_txt = std::any_cast<AnimatedTextRenderer>(&kiwi->component_list[1]);
+
     bool is_running = true;
     Logger::log(LogLevel::INFO, "Running!");
     SDL_Event event;
@@ -117,10 +120,16 @@ int main(int argc, char *argv[])
                     int b = distribution(generator);
                     add_component_to_entity<SquareComponent>(SquareComponent(32, r, g, b), ent);
                 }
+                if (event.key.keysym.scancode == SDL_SCANCODE_S)
+                {
+                    kiwi_txt->advance_dialogue();
+                }
             }
         }
 
         physics_update(delta_time);
+
+        update_ui(delta_time);
 
 
         /* FPS CALCULATIONS */
