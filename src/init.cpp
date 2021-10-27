@@ -7,6 +7,15 @@ void kiwi_end_dialogue()
     GLOBAL_ENTITY_LIST.erase(GLOBAL_ENTITY_LIST.begin() + index);
 }
 
+void kiwi_continue_dialogue()
+{
+    SharedPtrEntity kiwi = find_entities_by_label("kiwi")[0];
+    
+    auto kiwi_text = std::any_cast<AnimatedTextRenderer>(&kiwi->component_list.at(1));
+
+    kiwi_text->advance_dialogue();
+}
+
 void init()
 {
     /*
@@ -91,4 +100,10 @@ void init()
     kiwi_text->size_and_pos.x = 305;
     kiwi_text->size_and_pos.y = 700;
     kiwi_text->end_of_dialogue_callback = kiwi_end_dialogue;
+
+
+    add_component_to_entity<ControlsComponent>(ControlsComponent(), kiwi);
+    ControlsComponent* kiwi_controls = std::any_cast<ControlsComponent>(&kiwi->component_list.at(2));
+
+    set_control_callback(kiwi_controls, SDL_SCANCODE_A, kiwi_continue_dialogue);
 }
