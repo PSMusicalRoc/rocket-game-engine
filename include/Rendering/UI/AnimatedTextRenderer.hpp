@@ -3,12 +3,24 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "Rendering/Animations/Animation.hpp"
+
 #include <string>
 #include <vector>
 
+struct Message
+{
+    std::string text;
+    TTF_Font* font;
+
+    void (*message_done_callback)(void) = [](){return;};
+
+    Message(std::string message);
+};
+
 struct AnimatedTextRenderer
 {
-    std::vector<std::string> messages;
+    std::vector<Message> messages;
     int current_message_index = 0;
     std::string full_text;
     std::string current_text = "";
@@ -22,11 +34,11 @@ struct AnimatedTextRenderer
     int width = 590;
     
     SDL_Surface* surface_text;
-    TTF_Font* font;
+    //TTF_Font* font;
 
     SDL_Rect size_and_pos;
 
-    AnimatedTextRenderer(std::string text, TTF_Font* font, int speed);
+    AnimatedTextRenderer(int speed);
 
     void advance_dialogue();
 

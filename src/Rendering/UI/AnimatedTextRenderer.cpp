@@ -1,12 +1,25 @@
 #include "Rendering/UI/AnimatedTextRenderer.hpp"
 
-AnimatedTextRenderer::AnimatedTextRenderer(std::string text, TTF_Font* font, int speed)
-    :full_text(text), font(font), speed(speed) {}
+Message::Message(std::string message)
+    :text(message) {}
+
+
+
+
+
+
+
+
+
+AnimatedTextRenderer::AnimatedTextRenderer(int speed)
+    :speed(speed) {}
 
 void AnimatedTextRenderer::advance_dialogue()
 {
     if (current_text == full_text)
     {
+        messages.at(current_message_index).message_done_callback();
+
         current_text = "";
         if (current_message_index + 1 >= messages.size())
         {
@@ -30,7 +43,7 @@ void AnimatedTextRenderer::update(AnimatedTextRenderer* txt, double deltatime)
 
     txt->time_since_last_char_printed += deltatime;
 
-    txt->full_text = txt->messages[txt->current_message_index];
+    txt->full_text = txt->messages[txt->current_message_index].text;
 
     while (txt->time_since_last_char_printed >= (double)1/(double)txt->speed)
     {
@@ -46,7 +59,8 @@ void AnimatedTextRenderer::render(SDL_Renderer* renderer, AnimatedTextRenderer* 
 {
     if (txt->current_text != "")
     {
-        txt->surface_text = TTF_RenderText_Blended_Wrapped(txt->font, txt->current_text.c_str(), {255, 255, 255}, txt->width);
+        txt->surface_text = TTF_RenderText_Blended_Wrapped(txt->messages.at(txt->current_message_index).font,
+                txt->current_text.c_str(), {255, 255, 255}, txt->width);
 
         SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, txt->surface_text);
         SDL_Rect pos = {txt->size_and_pos.x, txt->size_and_pos.y,

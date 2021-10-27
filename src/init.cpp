@@ -9,6 +9,10 @@ void kiwi_end_dialogue()
 
 void init()
 {
+    /*
+    * FPS Entity
+    */
+
     auto fps_ent = create_entity(0, 0);
     fps_ent->labels.emplace_back("ui");
     fps_ent->labels.emplace_back("fps");
@@ -18,6 +22,16 @@ void init()
     txt->size_and_pos.h = 100;
     txt->size_and_pos.w = 1000;
 
+
+
+
+
+
+
+    /*
+    * Kiwi
+    */
+   
     auto kiwi = create_entity(0, 0);
     kiwi->labels.emplace_back("kiwi");
     //auto shared = std::make_shared<Animation>(Animation(Spritesheet("res/img/kiwi/Kiwi_Megaman_Battle_Network.png")));
@@ -39,43 +53,42 @@ void init()
         }
     }
 
-    add_component_to_entity<AnimatedTextRenderer>(AnimatedTextRenderer("", Fonts::SMALL_ARIAL, 100), kiwi);
-    
-    AnimatedTextRenderer* kiwi_text = std::any_cast<AnimatedTextRenderer>(&kiwi->component_list.at(1));
-
-    kiwi_text->messages.emplace_back("Hi there, this is a test of the animated scrolling text!\n"
-                                    "Hopefully, it's also multiline as well!\n"
-                                    "Thank you Asher for making the poggers art! :PogU:");
-    
-    kiwi_text->messages.emplace_back("Test2");
-
-    kiwi_text->messages.emplace_back("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB");
-
-
-    kiwi_text->size_and_pos.x = 305;
-    kiwi_text->size_and_pos.y = 700;
-    kiwi_text->end_of_dialogue_callback = kiwi_end_dialogue;
-
-
-    /*
-    Whale Mom Sprite
-    */
-
-    auto whale_mom = create_entity(0, 0);
-    add_component_to_entity<SpriteRenderer>(SpriteRenderer("idle", Animation(Spritesheet("res/img/whale_mom/Whale_Mom_Megaman_Battle_Network_New.png"))), whale_mom);
-    SpriteRenderer* whale_mom_sprite = std::any_cast<SpriteRenderer>(&whale_mom->component_list.at(0));
-    whale_mom_sprite->do_clip = true;
-    whale_mom_sprite->pos = {100, 400, 200, 200};
-    whale_mom_sprite->switch_animation("idle");
-
+    add_animation_to_spriterenderer(kiwi_sprite, "whale_mom", Animation(Spritesheet("res/img/whale_mom/Whale_Mom_Megaman_Battle_Network_New.png")));
     for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < 5; j++)
         {
             for (int k = 0; k < 2; k++)
             {
-                add_frame_to_animation(whale_mom_sprite->animations.at("idle").get(), {480 * j, 480 * i, 480, 480});
+                add_frame_to_animation(kiwi_sprite->animations.at("whale_mom").get(), {480 * j, 480 * i, 480, 480});
             }
         }
     }
+
+
+    add_component_to_entity<AnimatedTextRenderer>(AnimatedTextRenderer(100), kiwi);
+    
+    AnimatedTextRenderer* kiwi_text = std::any_cast<AnimatedTextRenderer>(&kiwi->component_list.at(1));
+
+    kiwi_text->messages.emplace_back(Message("Hi there, this is a test of the animated scrolling text!\n"
+                                    "Hopefully, it's also multiline as well!\n"
+                                    "Thank you Asher for making the poggers art! :PogU:"));
+    kiwi_text->messages.at(0).font = Fonts::SMALL_ARIAL;
+    
+    kiwi_text->messages.emplace_back(Message("Test2"));
+    kiwi_text->messages.at(1).font = Fonts::SMALL_ARIAL;
+    kiwi_text->messages.at(1).message_done_callback = [](){
+        
+        auto kiwi = find_entities_by_label("kiwi")[0];
+        auto kiwi_sprite = std::any_cast<SpriteRenderer>(&kiwi->component_list.at(0));
+        kiwi_sprite->switch_animation("whale_mom");
+        };
+
+    kiwi_text->messages.emplace_back(Message("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB"));
+    kiwi_text->messages.at(2).font = Fonts::SMALL_ARIAL;
+
+
+    kiwi_text->size_and_pos.x = 305;
+    kiwi_text->size_and_pos.y = 700;
+    kiwi_text->end_of_dialogue_callback = kiwi_end_dialogue;
 }
