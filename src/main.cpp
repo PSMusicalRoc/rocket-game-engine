@@ -120,10 +120,13 @@ int main(int argc, char *argv[])
                     int b = distribution(generator);
                     add_component_to_entity<SquareComponent>(SquareComponent(32, r, g, b), ent);
                 }
-                if (event.key.keysym.scancode == SDL_SCANCODE_S)
+
+                Controls::update_controls(&event);
+                
+                /*if (event.key.keysym.scancode == SDL_SCANCODE_S)
                 {
                     kiwi_txt->advance_dialogue();
-                }
+                }*/
             }
         }
 

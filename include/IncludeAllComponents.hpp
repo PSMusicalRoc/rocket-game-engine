@@ -10,6 +10,9 @@
 
 #pragma once
 
+#include "Controls/ControlsComponent.hpp"
+#include "Controls/ControlsUpdate.hpp"
+
 #include "Physics/PhysicsSystem.hpp"
 #include "Physics/GravityComponent.hpp"
 
