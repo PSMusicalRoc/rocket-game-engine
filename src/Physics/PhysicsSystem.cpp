@@ -23,4 +23,14 @@ void physics_update(double deltatime)
             continue;
         }
     }
+
+    entities = search_for_entities_with_component<Movement2DComponent>();
+
+    for (SharedPtrEntity ent : entities)
+    {
+        int component = find_component_in_entity<Movement2DComponent>(ent);
+        Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&ent->component_list.at(component));
+        
+        Movement2DComponent::update(movement, ent, deltatime);
+    }
 }

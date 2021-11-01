@@ -12,6 +12,7 @@
 #include "Common/Globals.hpp"
 
 #include "Physics/GravityComponent.hpp"
+#include "Physics/2DPlaneMovement.hpp"
 
 #include <any>
 
