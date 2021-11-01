@@ -79,6 +79,6 @@ void render(SDL_Renderer* renderer)
         int component = find_component_in_entity<SpriteRenderer>(ent);
         SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&ent->component_list.at(component));
 
-        SpriteRenderer::render(renderer, sprt);
+        SpriteRenderer::render(renderer, sprt, ent);
     }
 }

@@ -1,10 +1,193 @@
 #include "init.hpp"
+#include "Common/Globals.hpp"
+
+void mover_left()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    movement->move_left = true;
+    sprt->switch_animation("walk_left");
+}
+
+void mover_right()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    movement->move_right = true;
+    sprt->switch_animation("walk_right");
+}
+
+void mover_down()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    movement->move_down = true;
+    sprt->switch_animation("walk_down");
+}
+
+void mover_up()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    movement->move_up = true;
+    sprt->switch_animation("walk_up");
+}
+
+void mover_left_keyup()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    movement->move_left = false;
+    sprt->switch_animation("idle_left");
+}
+
+void mover_right_keyup()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    movement->move_right = false;
+    sprt->switch_animation("idle_right");
+}
+
+void mover_down_keyup()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    movement->move_down = false;
+    sprt->switch_animation("idle_down");
+}
+
+void mover_up_keyup()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    movement->move_up = false;
+    sprt->switch_animation("idle_up");
+}
+
+void init_mover()
+{
+    auto mover = create_entity(Globals::screen_width / 2, Globals::screen_height / 2);
+    mover->labels.emplace_back("mover");
+
+    add_component_to_entity<SpriteRenderer>(SpriteRenderer("idle_left", Animation(Spritesheet("res/img/kiwi/kiwi_left.png"))), mover);
+    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+
+    add_frame_to_animation(sprt->animations.at("idle_left").get(), {0, 0, 32, 32});
+
+    add_animation_to_spriterenderer(sprt, "idle_right", Animation(Spritesheet("res/img/kiwi/kiwi_right.png")));
+    add_frame_to_animation(sprt->animations.at("idle_right").get(), {64, 0, 32, 32});
+
+    add_animation_to_spriterenderer(sprt, "idle_up", Animation(Spritesheet("res/img/kiwi/kiwi_up.png")));
+    add_frame_to_animation(sprt->animations.at("idle_up").get(), {0, 0, 32, 33});
+
+    add_animation_to_spriterenderer(sprt, "idle_down", Animation(Spritesheet("res/img/kiwi/kiwi_down.png")));
+    add_frame_to_animation(sprt->animations.at("idle_down").get(), {0, 0, 32, 32});
+
+    add_animation_to_spriterenderer(sprt, "walk_left", Animation(Spritesheet("res/img/kiwi/kiwi_left.png")));
+
+    for (int i = 0; i < 7; i++)
+    {
+        for (int _ = 0; _ < 4; _++)
+        {
+            add_frame_to_animation(sprt->animations.at("walk_left").get(), {
+                i * 32,
+                0,
+                32,
+                32
+            });
+        }
+    }
+
+    add_animation_to_spriterenderer(sprt, "walk_right", Animation(Spritesheet("res/img/kiwi/kiwi_right.png")));
+
+    for (int i = 0; i < 7; i++)
+    {
+        for (int _ = 0; _ < 4; _++)
+        {
+            add_frame_to_animation(sprt->animations.at("walk_right").get(), {
+                i * 32,
+                0,
+                32,
+                32
+            });
+        }
+    }
+
+    add_animation_to_spriterenderer(sprt, "walk_up", Animation(Spritesheet("res/img/kiwi/kiwi_up.png")));
+
+    for (int i = 0; i < 8; i++)
+    {
+        for (int _ = 0; _ < 4; _++)
+        {
+            add_frame_to_animation(sprt->animations.at("walk_up").get(), {
+                i * 32,
+                0,
+                32,
+                33
+            });
+        }
+    }
+
+    add_animation_to_spriterenderer(sprt, "walk_down", Animation(Spritesheet("res/img/kiwi/kiwi_down.png")));
+
+    for (int i = 0; i < 8; i++)
+    {
+        for (int _ = 0; _ < 4; _++)
+        {
+            add_frame_to_animation(sprt->animations.at("walk_down").get(), {
+                i * 32,
+                0,
+                32,
+                32
+            });
+        }
+    }
+
+    sprt->do_clip = true;
+    sprt->switch_animation("idle_left");
+    sprt->pos = {0, 0, 128, 128};
+
+
+    add_component_to_entity<ControlsComponent>(ControlsComponent(), mover);
+    ControlsComponent* mover_controls = std::any_cast<ControlsComponent>(&mover->component_list.at(1));
+
+    add_component_to_entity<Movement2DComponent>(Movement2DComponent(50), mover);
+
+    set_keydown_callback(mover_controls, SDL_SCANCODE_W, mover_up);
+    set_keydown_callback(mover_controls, SDL_SCANCODE_S, mover_down);
+    set_keydown_callback(mover_controls, SDL_SCANCODE_A, mover_left);
+    set_keydown_callback(mover_controls, SDL_SCANCODE_D, mover_right);
+
+    set_keyup_callback(mover_controls, SDL_SCANCODE_W, mover_up_keyup);
+    set_keyup_callback(mover_controls, SDL_SCANCODE_S, mover_down_keyup);
+    set_keyup_callback(mover_controls, SDL_SCANCODE_A, mover_left_keyup);
+    set_keyup_callback(mover_controls, SDL_SCANCODE_D, mover_right_keyup);
+}
 
 void kiwi_end_dialogue()
 {
     SharedPtrEntity kiwi = find_entities_by_label("kiwi")[0];
     int index = find_entity_position(kiwi);
     GLOBAL_ENTITY_LIST.erase(GLOBAL_ENTITY_LIST.begin() + index);
+
+    init_mover();
 }
 
 void kiwi_continue_dialogue()
@@ -41,14 +224,14 @@ void init()
     * Kiwi
     */
    
-    auto kiwi = create_entity(0, 0);
+    auto kiwi = create_entity(100, 700);
     kiwi->labels.emplace_back("kiwi");
     //auto shared = std::make_shared<Animation>(Animation(Spritesheet("res/img/kiwi/Kiwi_Megaman_Battle_Network.png")));
     add_component_to_entity<SpriteRenderer>(SpriteRenderer("idle", Animation(Spritesheet("res/img/kiwi/Kiwi_Megaman_Battle_Network.png"))), kiwi);
     SpriteRenderer* kiwi_sprite = std::any_cast<SpriteRenderer>(&kiwi->component_list.at(0));
     kiwi_sprite->do_clip = true;
 
-    kiwi_sprite->pos = {100, 700, 200, 200};
+    kiwi_sprite->pos = {0, 0, 200, 200};
     kiwi_sprite->switch_animation("idle");
 
     for (int i = 0; i < 5; i++)
@@ -105,5 +288,5 @@ void init()
     add_component_to_entity<ControlsComponent>(ControlsComponent(), kiwi);
     ControlsComponent* kiwi_controls = std::any_cast<ControlsComponent>(&kiwi->component_list.at(2));
 
-    set_control_callback(kiwi_controls, SDL_SCANCODE_A, kiwi_continue_dialogue);
+    set_keydown_callback(kiwi_controls, SDL_SCANCODE_A, kiwi_continue_dialogue);
 }

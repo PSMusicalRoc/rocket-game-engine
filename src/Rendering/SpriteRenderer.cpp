@@ -15,30 +15,30 @@ void remove_animation_from_spriterenderer(SpriteRenderer* sprite_renderer, std::
     sprite_renderer->animations.erase(id);
 }
 
-void SpriteRenderer::render(SDL_Renderer* renderer, SpriteRenderer* sprite_renderer)
+void SpriteRenderer::render(SDL_Renderer* renderer, SpriteRenderer* sprite_renderer, SharedPtrEntity ent)
 {
-    int h, w;
-
     sprite_renderer->animations.at(sprite_renderer->current_animation)->play(-1);
 
     Spritesheet& ss = sprite_renderer->animations.at(sprite_renderer->current_animation)->spritesheet;
     SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer, ss.spritesheet);
     //SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
 
-    SDL_QueryTexture(tex, NULL, NULL, &w, &h);
-    //Logger::log(LogLevel::INFO, "W: " + std::to_string(w) + " H: " + std::to_string(h));
-
     int current_frame = sprite_renderer->animations.at(sprite_renderer->current_animation)->current_frame;
+
+    SDL_Rect output_pos = { sprite_renderer->pos.x + ent->x_pos,
+                            sprite_renderer->pos.y + ent->y_pos,
+                            sprite_renderer->pos.w,
+                            sprite_renderer->pos.h};
 
     if (sprite_renderer->do_clip)
     {
         SDL_RenderCopy(renderer, tex,
             &sprite_renderer->animations.at(sprite_renderer->current_animation)->animation_frames[current_frame],
-            &sprite_renderer->pos);
+            &output_pos);
     }
     else
     {
-        SDL_RenderCopy(renderer, tex, nullptr, &sprite_renderer->pos);
+        SDL_RenderCopy(renderer, tex, nullptr, &output_pos);
     }
     SDL_DestroyTexture(tex);
 }

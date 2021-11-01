@@ -2,6 +2,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "Common/EntCompFunctions.hpp"
+
 #include "Rendering/Spritesheet.hpp"
 #include "Rendering/Animations/Animation.hpp"
 
@@ -28,7 +30,7 @@ struct SpriteRenderer
 
     void switch_animation(std::string id);
 
-    static void render(SDL_Renderer* renderer, SpriteRenderer* sprite_renderer);
+    static void render(SDL_Renderer* renderer, SpriteRenderer* sprite_renderer, SharedPtrEntity ent);
 };
 
 void add_animation_to_spriterenderer(SpriteRenderer* sprite_renderer, std::string anim_name, Animation anim);

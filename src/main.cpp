@@ -110,23 +110,11 @@ int main(int argc, char *argv[])
             }
             else if (event.type == SDL_KEYDOWN)
             {
-                if (event.key.keysym.scancode == SDL_SCANCODE_D)
-                {
-                    std::shared_ptr<Entity> ent = create_entity();
-                    ent->labels.emplace_back("ent");
-                    add_component_to_entity<GravityComponent>(GravityComponent(), ent);
-                    int r = distribution(generator);
-                    int g = distribution(generator);
-                    int b = distribution(generator);
-                    add_component_to_entity<SquareComponent>(SquareComponent(32, r, g, b), ent);
-                }
-
-                Controls::update_controls(&event);
-                
-                /*if (event.key.keysym.scancode == SDL_SCANCODE_S)
-                {
-                    kiwi_txt->advance_dialogue();
-                }*/
+                Controls::update_keydown(&event);
+            }
+            else if (event.type == SDL_KEYUP)
+            {
+                Controls::update_keyup(&event);
             }
         }
 
