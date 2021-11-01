@@ -15,6 +15,7 @@
 
 #include "Physics/PhysicsSystem.hpp"
 #include "Physics/GravityComponent.hpp"
+#include "Physics/2DPlaneMovement.hpp"
 
 #include "Rendering/RenderingSystem.hpp"
 #include "Rendering/SquareComponent.hpp"

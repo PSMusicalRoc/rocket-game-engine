@@ -7,5 +7,6 @@
 
 namespace Controls
 {
-    void update_controls(SDL_Event* event);
+    void update_keydown(SDL_Event* event);
+    void update_keyup(SDL_Event* event);
 }

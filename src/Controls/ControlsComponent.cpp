@@ -1,24 +1,47 @@
 #include "Controls/ControlsComponent.hpp"
 
-void call_controls_callback(ControlsComponent* controls, SDL_Scancode key)
+void call_keydown_callback(ControlsComponent* controls, SDL_Scancode key)
 {
     // Calls the function at key `key`
-    controls->Controls.at(key)();
+    controls->KeyDownCallbacks.at(key)();
 }
 
-void set_control_callback(ControlsComponent* controls, SDL_Scancode key, void(*function)(void))
+void set_keydown_callback(ControlsComponent* controls, SDL_Scancode key, void(*function)(void))
 {
-    if (controls->Controls.find(key) == controls->Controls.end())
+    if (controls->KeyDownCallbacks.find(key) == controls->KeyDownCallbacks.end())
     {
-        controls->Controls.emplace(key, function);
+        controls->KeyDownCallbacks.emplace(key, function);
     }
     else
     {
-        controls->Controls.at(key) = function;
+        controls->KeyDownCallbacks.at(key) = function;
     }
 }
 
-void remove_control_callback(ControlsComponent* controls, SDL_Scancode key)
+void remove_keydown_callback(ControlsComponent* controls, SDL_Scancode key)
 {
-    controls->Controls.erase(key);
+    controls->KeyDownCallbacks.erase(key);
+}
+
+void call_keyup_callback(ControlsComponent* controls, SDL_Scancode key)
+{
+    // Calls the function at key `key`
+    controls->KeyUpCallbacks.at(key)();
+}
+
+void set_keyup_callback(ControlsComponent* controls, SDL_Scancode key, void(*function)(void))
+{
+    if (controls->KeyUpCallbacks.find(key) == controls->KeyUpCallbacks.end())
+    {
+        controls->KeyUpCallbacks.emplace(key, function);
+    }
+    else
+    {
+        controls->KeyUpCallbacks.at(key) = function;
+    }
+}
+
+void remove_keyup_callback(ControlsComponent* controls, SDL_Scancode key)
+{
+    controls->KeyUpCallbacks.erase(key);
 }
