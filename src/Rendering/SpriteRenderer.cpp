@@ -17,6 +17,7 @@ void remove_animation_from_spriterenderer(SpriteRenderer* sprite_renderer, std::
 
 void SpriteRenderer::render(SDL_Renderer* renderer, SpriteRenderer* sprite_renderer, SharedPtrEntity ent)
 {
+    sprite_renderer->perframe_callback();
     sprite_renderer->animations.at(sprite_renderer->current_animation)->play(-1);
 
     Spritesheet& ss = sprite_renderer->animations.at(sprite_renderer->current_animation)->spritesheet;

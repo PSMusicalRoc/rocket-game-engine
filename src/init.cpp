@@ -1,84 +1,83 @@
 #include "init.hpp"
 #include "Common/Globals.hpp"
 
-void mover_left()
+void mover_perframe_callback()
 {
     auto mover = find_entities_by_label("mover").at(0);
     Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
     SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
 
+    std::string facing_dir = sprt->current_animation.substr(5);
+
+    if (movement->move_left and !movement->move_right) { sprt->switch_animation("walk_left"); }
+    else if (movement->move_right and !movement->move_left) { sprt->switch_animation("walk_right"); }
+    else if (movement->move_down and !movement->move_up) { sprt->switch_animation("walk_down"); }
+    else if (movement->move_up and !movement->move_down) { sprt->switch_animation("walk_up"); }
+    else { sprt->switch_animation("idle_" + facing_dir); }
+}
+
+void mover_left()
+{
+    auto mover = find_entities_by_label("mover").at(0);
+    Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
+
     movement->move_left = true;
-    sprt->switch_animation("walk_left");
 }
 
 void mover_right()
 {
     auto mover = find_entities_by_label("mover").at(0);
     Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
-    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
 
     movement->move_right = true;
-    sprt->switch_animation("walk_right");
 }
 
 void mover_down()
 {
     auto mover = find_entities_by_label("mover").at(0);
     Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
-    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
 
     movement->move_down = true;
-    sprt->switch_animation("walk_down");
 }
 
 void mover_up()
 {
     auto mover = find_entities_by_label("mover").at(0);
     Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
-    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
 
     movement->move_up = true;
-    sprt->switch_animation("walk_up");
 }
 
 void mover_left_keyup()
 {
     auto mover = find_entities_by_label("mover").at(0);
     Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
-    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
 
     movement->move_left = false;
-    sprt->switch_animation("idle_left");
 }
 
 void mover_right_keyup()
 {
     auto mover = find_entities_by_label("mover").at(0);
     Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
-    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
 
     movement->move_right = false;
-    sprt->switch_animation("idle_right");
 }
 
 void mover_down_keyup()
 {
     auto mover = find_entities_by_label("mover").at(0);
     Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
-    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
 
     movement->move_down = false;
-    sprt->switch_animation("idle_down");
 }
 
 void mover_up_keyup()
 {
     auto mover = find_entities_by_label("mover").at(0);
     Movement2DComponent* movement = std::any_cast<Movement2DComponent>(&mover->component_list.at(2));
-    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
 
     movement->move_up = false;
-    sprt->switch_animation("idle_up");
 }
 
 void init_mover()
@@ -163,6 +162,7 @@ void init_mover()
     sprt->do_clip = true;
     sprt->switch_animation("idle_left");
     sprt->pos = {0, 0, 128, 128};
+    sprt->perframe_callback = mover_perframe_callback;
 
 
     add_component_to_entity<ControlsComponent>(ControlsComponent(), mover);
