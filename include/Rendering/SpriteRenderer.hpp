@@ -26,6 +26,8 @@ struct SpriteRenderer
 
     int current_sheet_id = 0;
 
+    void (*perframe_callback)(void) = [](){};
+
     SpriteRenderer(std::string anim_name, Animation anim);
 
     void switch_animation(std::string id);
