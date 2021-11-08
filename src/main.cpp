@@ -122,6 +122,8 @@ int main(int argc, char *argv[])
 
         update_ui(delta_time);
 
+        Camera::update_global_cam_pos();
+
 
         /* FPS CALCULATIONS */
         long int FPS = (long int)((double)1 / (double)delta_time);
@@ -133,8 +135,7 @@ int main(int argc, char *argv[])
 
         SDL_RenderClear(renderer);
 
-        // Problem: Spritesheet does not want to retain its
-        // refcount >:(
+        update_global_ent_pos();
 
         render(renderer);
 

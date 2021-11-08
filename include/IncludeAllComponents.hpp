@@ -24,3 +24,5 @@
 #include "Rendering/UI/TextRenderer.hpp"
 #include "Rendering/UI/AnimatedTextRenderer.hpp"
 #include "Rendering/UI/Fonts.hpp"
+
+#include "Rendering/Camera.hpp"

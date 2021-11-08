@@ -28,6 +28,18 @@ void update_ui(double deltatime)
     }
 }
 
+void update_global_ent_pos()
+{
+    for (auto ent : GLOBAL_ENTITY_LIST)
+    {
+        if (ent->in_global_space)
+        {
+            ent->ren_x_pos = ent->x_pos - Camera::GLOBAL_CAMERA->xpos;
+            ent->ren_y_pos = ent->y_pos - Camera::GLOBAL_CAMERA->ypos;
+        }
+    }
+}
+
 void render_ui(SDL_Renderer* renderer)
 {
     EntPtrVector entities = search_for_entities_with_component<TextRenderer>();
@@ -81,4 +93,9 @@ void render(SDL_Renderer* renderer)
 
         SpriteRenderer::render(renderer, sprt, ent);
     }
+}
+
+void camera_render(SDL_Renderer* renderer)
+{
+
 }

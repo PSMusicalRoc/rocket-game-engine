@@ -22,7 +22,7 @@ void Movement2DComponent::update(Movement2DComponent* comp, SharedPtrEntity ent,
     }
 
     if (comp->move_down)
-    {
+   {
         ent->y_pos += comp->speed * deltatime;
     }
 }

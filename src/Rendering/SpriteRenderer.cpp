@@ -26,10 +26,22 @@ void SpriteRenderer::render(SDL_Renderer* renderer, SpriteRenderer* sprite_rende
 
     int current_frame = sprite_renderer->animations.at(sprite_renderer->current_animation)->current_frame;
 
-    SDL_Rect output_pos = { sprite_renderer->pos.x + ent->x_pos,
-                            sprite_renderer->pos.y + ent->y_pos,
-                            sprite_renderer->pos.w,
-                            sprite_renderer->pos.h};
+    SDL_Rect output_pos = {0, 0, 0, 0};
+
+    if (ent->in_global_space)
+    {
+        output_pos.x = sprite_renderer->pos.x + ent->ren_x_pos;
+        output_pos.y = sprite_renderer->pos.y + ent->ren_y_pos;
+        output_pos.w = sprite_renderer->pos.w;
+        output_pos.h = sprite_renderer->pos.h;
+    }
+    else
+    {
+        output_pos.x = sprite_renderer->pos.x + ent->x_pos;
+        output_pos.y = sprite_renderer->pos.y + ent->y_pos;
+        output_pos.w = sprite_renderer->pos.w;
+        output_pos.h = sprite_renderer->pos.h;
+    }
 
     if (sprite_renderer->do_clip)
     {

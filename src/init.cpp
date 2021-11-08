@@ -1,6 +1,17 @@
 #include "init.hpp"
 #include "Common/Globals.hpp"
 
+void create_test_ent()
+{
+    auto test_ent = create_entity(-100, 100);
+    SpriteRenderer* sprt = add_component_to_entity<SpriteRenderer>(SpriteRenderer("idle", Animation(Spritesheet("res/img/kiwi/kiwi_right.png"))), test_ent);
+
+    add_frame_to_animation(sprt->animations.at("idle").get(), {64, 0, 32, 32});
+    sprt->switch_animation("idle");
+    sprt->do_clip = true;
+    sprt->pos = {0, 0, 128, 128};
+}
+
 void mover_perframe_callback()
 {
     auto mover = find_entities_by_label("mover").at(0);
@@ -85,8 +96,7 @@ void init_mover()
     auto mover = create_entity(Globals::screen_width / 2, Globals::screen_height / 2);
     mover->labels.emplace_back("mover");
 
-    add_component_to_entity<SpriteRenderer>(SpriteRenderer("idle_left", Animation(Spritesheet("res/img/kiwi/kiwi_left.png"))), mover);
-    SpriteRenderer* sprt = std::any_cast<SpriteRenderer>(&mover->component_list.at(0));
+    SpriteRenderer* sprt = add_component_to_entity<SpriteRenderer>(SpriteRenderer("idle_left", Animation(Spritesheet("res/img/kiwi/kiwi_left.png"))), mover);
 
     add_frame_to_animation(sprt->animations.at("idle_left").get(), {0, 0, 32, 32});
 
@@ -170,6 +180,10 @@ void init_mover()
 
     add_component_to_entity<Movement2DComponent>(Movement2DComponent(50), mover);
 
+    Camera* cam = add_camera_to_entity(mover);
+    cam->offset[0] = 64;
+    cam->offset[1] = 64;
+
     set_keydown_callback(mover_controls, SDL_SCANCODE_W, mover_up);
     set_keydown_callback(mover_controls, SDL_SCANCODE_S, mover_down);
     set_keydown_callback(mover_controls, SDL_SCANCODE_A, mover_left);
@@ -179,6 +193,8 @@ void init_mover()
     set_keyup_callback(mover_controls, SDL_SCANCODE_S, mover_down_keyup);
     set_keyup_callback(mover_controls, SDL_SCANCODE_A, mover_left_keyup);
     set_keyup_callback(mover_controls, SDL_SCANCODE_D, mover_right_keyup);
+
+    create_test_ent();
 }
 
 void kiwi_end_dialogue()
@@ -206,6 +222,7 @@ void init()
     */
 
     auto fps_ent = create_entity(0, 0);
+    fps_ent->in_global_space = false;
     fps_ent->labels.emplace_back("ui");
     fps_ent->labels.emplace_back("fps");
     add_component_to_entity<TextRenderer>(TextRenderer(std::string("300"), Fonts::ARIAL), fps_ent);

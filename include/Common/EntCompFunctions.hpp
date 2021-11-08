@@ -109,18 +109,18 @@ bool check_if_entity_has_component(SharedPtrEntity entity)
  * 
  * @param component An instance of the component to add to the given entity
  * @param entity A ::SharedPtrEntity object to add the component to
- * @returns True if the component was added successfully, false if the entity
- * already had an instance of that type of component
+ * @returns A pointer to the created component, or nullptr if the component
+ * was not created.
  */
 template <typename T>
-bool add_component_to_entity(T component, SharedPtrEntity entity)
+T* add_component_to_entity(T component, SharedPtrEntity entity)
 {
     if (!check_if_entity_has_component<T>(entity))
     {
         entity->component_list.emplace_back(std::make_any<T>(component));
-        return true;
+        return std::any_cast<T>(&entity->component_list.at(entity->component_list.size() - 1));
     }
-    return false;
+    return nullptr;
 }
 
 /**

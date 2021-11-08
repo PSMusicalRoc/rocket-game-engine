@@ -42,6 +42,9 @@ struct Entity
     /** @brief The double representation of the entity's Y position.*/
     double y_pos = 0;
 
+    double ren_x_pos = 0;
+    double ren_y_pos = 0;
+
     /** @brief The unique Entity Identifier assigned to this Entity. */
     std::string eid;
     
@@ -63,6 +66,18 @@ struct Entity
      * @brief The vector of labels attached to this entity.
      */
     std::vector<std::string> labels;
+
+    /**
+     * This is a boolean that defines functionality in reference
+     * to the Camera component. If this is true, moving the main
+     * camera will in turn move the entity's position on screen.
+     * If it's off, it'll stay stationary onscreen even if the
+     * camera moves.
+     * 
+     * @brief Controls screen movement in reference to the main
+     * camera.
+     */
+    bool in_global_space = true;
 
     /**
      * @brief DO NOT USE. USE ::create_entity() INSTEAD.
